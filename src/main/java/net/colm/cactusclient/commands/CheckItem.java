@@ -2,6 +2,7 @@ package net.colm.cactusclient.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import net.colm.cactusclient.HudData;
 import net.colm.cactusclient.inventorychecker.inventoryCheckerClass;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -21,14 +22,9 @@ public class CheckItem {
                                     String itemName = StringArgumentType.getString(context, "item");
                                     CommandSourceStack source = context.getSource();
 
-                                    System.out.println("Item Name Typed: " + itemName);
-
                                     if (source.getEntity() instanceof ServerPlayer player) {
-                                        final String fullItemName = itemName.contains(":") ? itemName : "minecraft:" + itemName;
-
+                                        String fullItemName = itemName.contains(":") ? itemName : "minecraft:" + itemName;
                                         ResourceLocation id = ResourceLocation.tryParse(fullItemName.toLowerCase());
-
-                                        System.out.println("Parsed ResourceLocation: " + id);
 
                                         if (id == null) {
                                             source.sendFailure(Component.literal("Invalid item name: " + itemName));
@@ -36,16 +32,15 @@ public class CheckItem {
                                         }
 
                                         Item item = BuiltInRegistries.ITEM.get(id);
-
                                         if (item == Items.AIR) {
                                             source.sendFailure(Component.literal("Unknown item: " + itemName));
                                             return 0;
                                         }
 
+                                        HudData.addItem(item); // track item
                                         int count = inventoryCheckerClass.getItemCount(player, item);
-
                                         source.sendSuccess(() ->
-                                                        Component.literal("You have " + count + " of " + fullItemName + " in your inventory!"),
+                                                        Component.literal("Tracking " + fullItemName + ". You currently have " + count),
                                                 false
                                         );
                                         return 1;
