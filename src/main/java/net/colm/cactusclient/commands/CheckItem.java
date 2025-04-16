@@ -21,17 +21,13 @@ public class CheckItem {
                                     String itemName = StringArgumentType.getString(context, "item");
                                     CommandSourceStack source = context.getSource();
 
-                                    // Debug: print the item name the player typed
                                     System.out.println("Item Name Typed: " + itemName);
 
                                     if (source.getEntity() instanceof ServerPlayer player) {
-                                        // Create a final variable to hold the full item name
                                         final String fullItemName = itemName.contains(":") ? itemName : "minecraft:" + itemName;
 
-                                        // Try to load the item from the registry
                                         ResourceLocation id = ResourceLocation.tryParse(fullItemName.toLowerCase());
 
-                                        // Debug: print the ResourceLocation that was created
                                         System.out.println("Parsed ResourceLocation: " + id);
 
                                         if (id == null) {
