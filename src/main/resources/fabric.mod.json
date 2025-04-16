@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "cactusclient",
+	"version": "${version}",
+	"name": "CactusClient",
+	"description": "PVP Client, Develeoped by CactusColm",
+	"authors": [
+		"Colm"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/cactusclient/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.colm.cactusclient.CactusClient"
+		],
+		"client": [
+			"net.colm.cactusclient.CactusClientClient"
+		]
+	},
+	"mixins": [
+		"cactusclient.mixins.json",
+		{
+			"config": "cactusclient.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.13",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
